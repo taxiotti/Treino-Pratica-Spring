@@ -38,7 +38,7 @@ public class TarefasController {
 
     @ResponseBody
     @PutMapping("/{id}")
-    public TarefaModel update(
+    public TarefaResponseDTO update(
             @NonNull Long id,
             @Valid TarefaRequestDTO tarefa
     ) {
@@ -47,7 +47,7 @@ public class TarefasController {
 
     @ResponseBody
     @DeleteMapping("/{id}")
-    public TarefaModel delete(@NonNull Long id) {
+    public TarefaResponseDTO delete(@NonNull Long id) {
         return tarefasService.delete(id);
     }
 
