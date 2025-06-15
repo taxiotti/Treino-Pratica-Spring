@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class TarefasService {
     private final TarefasRepository tarefasRepository;
+    private final UsuariosService usuariosService;
 
-    public TarefasService(TarefasRepository tarefasRepository) {
+    public TarefasService(TarefasRepository tarefasRepository,  UsuariosService usuariosService) {
         this.tarefasRepository = tarefasRepository;
+        this.usuariosService = usuariosService;
     }
 
     public List<TarefaResponseDTO> getAll() {
@@ -34,20 +36,17 @@ public class TarefasService {
                 .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada"));
     }
 
-    public TarefaResponseDTO getById(@NonNull Long id) {
+    public TarefaResponseDTO findById(@NonNull Long id) {
         TarefaModel tarefa = getModelById(id);
         return new TarefaResponseDTO(tarefa);
     }
 
 
-    public TarefaResponseDTO create(TarefaRequestDTO tarefa) {
-        // Verificar se o usuário da tarefa existe
-        if (tarefa.getUsuarioId() == null) {
-            throw new IllegalArgumentException("O usuário da tarefa não pode ser nulo");
-        }
-
+    public TarefaResponseDTO create(Long usuarioId, TarefaRequestDTO tarefa) {
         TarefaModel tarefaModel = new TarefaModel();
         BeanUtils.copyProperties(tarefa, tarefaModel, "id");
+
+        mapRelations(tarefaModel, usuarioId);
 
         TarefaModel tarefaSalva = tarefasRepository.save(tarefaModel);
         return new TarefaResponseDTO(tarefaSalva);
@@ -73,6 +72,10 @@ public class TarefasService {
         }
         tarefa.setConcluida(true);
         tarefasRepository.save(tarefa);
+    }
+
+    public void mapRelations(TarefaModel tarefaModel, Long usuarioId) {
+        tarefaModel.setUsuario(this.usuariosService.findById(usuarioId));
     }
 
 }
