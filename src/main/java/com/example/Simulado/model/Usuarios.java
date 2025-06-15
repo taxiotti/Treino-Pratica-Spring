@@ -31,6 +31,6 @@ public class Usuarios {
     private LocalDateTime dataCadastro;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Tarefas> tarefas;
+    private List<TarefaModel> tarefas;
 
 }

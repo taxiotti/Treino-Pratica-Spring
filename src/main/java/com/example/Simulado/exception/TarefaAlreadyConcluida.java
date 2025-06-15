@@ -1,9 +1,9 @@
 package com.example.Simulado.exception;
 
-import com.example.Simulado.model.Tarefas;
+import com.example.Simulado.model.TarefaModel;
 
 public class TarefaAlreadyConcluida extends RuntimeException {
-    public TarefaAlreadyConcluida(Tarefas tarefa) {
+    public TarefaAlreadyConcluida(TarefaModel tarefa) {
         super(String.format("Tarefa %s já concluída", tarefa));
     }
 }
