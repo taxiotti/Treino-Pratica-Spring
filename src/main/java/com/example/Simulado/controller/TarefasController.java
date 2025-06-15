@@ -3,6 +3,7 @@ import com.example.Simulado.dto.tarefa.TarefaRequestDTO;
 import com.example.Simulado.dto.tarefa.TarefaResponseDTO;
 import com.example.Simulado.service.TarefasService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class TarefasController {
     }
 
     @ResponseBody
+    @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/{usuario_id}")
     public TarefaResponseDTO create(
             @Valid @RequestBody TarefaRequestDTO tarefa,
@@ -48,12 +50,14 @@ public class TarefasController {
     }
 
     @ResponseBody
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{tarefa_id}")
-    public TarefaResponseDTO delete(@NonNull @PathVariable Long tarefa_id) {
-        return tarefasService.delete(tarefa_id);
+    public void delete(@NonNull @PathVariable Long tarefa_id) {
+        tarefasService.delete(tarefa_id);
     }
 
     @ResponseBody
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @PatchMapping("/{tarefa_id}/concluir")
     public void concluirTarefa(@NonNull @PathVariable Long tarefa_id) {
         tarefasService.concluirTarefa(tarefa_id);
