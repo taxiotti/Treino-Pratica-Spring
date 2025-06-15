@@ -1,7 +1,6 @@
 package com.example.Simulado.controller;
 import com.example.Simulado.dto.tarefa.TarefaRequestDTO;
 import com.example.Simulado.dto.tarefa.TarefaResponseDTO;
-import com.example.Simulado.model.TarefaModel;
 import com.example.Simulado.service.TarefasService;
 import jakarta.validation.Valid;
 import org.springframework.lang.NonNull;
@@ -25,36 +24,39 @@ public class TarefasController {
     }
 
     @ResponseBody
-    @GetMapping("/{id}")
-    public TarefaResponseDTO getById(@NonNull Long id) {
-        return tarefasService.getById(id);
+    @GetMapping("/{tarefa_id}")
+    public TarefaResponseDTO getById(@NonNull @PathVariable Long tarefa_id) {
+        return tarefasService.findById(tarefa_id);
     }
 
     @ResponseBody
-    @PostMapping("/")
-    public TarefaResponseDTO create(@Valid TarefaRequestDTO tarefa) {
-        return tarefasService.create(tarefa);
-    }
-
-    @ResponseBody
-    @PutMapping("/{id}")
-    public TarefaResponseDTO update(
-            @NonNull Long id,
-            @Valid TarefaRequestDTO tarefa
+    @PostMapping("/{usuario_id}")
+    public TarefaResponseDTO create(
+            @Valid @RequestBody TarefaRequestDTO tarefa,
+            @NonNull @PathVariable Long usuario_id
     ) {
-        return tarefasService.update(id, tarefa);
+        return tarefasService.create(usuario_id, tarefa);
     }
 
     @ResponseBody
-    @DeleteMapping("/{id}")
-    public TarefaResponseDTO delete(@NonNull Long id) {
-        return tarefasService.delete(id);
+    @PutMapping("/{tarefa_id}")
+    public TarefaResponseDTO update(
+            @NonNull @PathVariable Long tarefa_id,
+            @Valid @RequestBody TarefaRequestDTO tarefa
+    ) {
+        return tarefasService.update(tarefa_id, tarefa);
     }
 
     @ResponseBody
-    @PatchMapping("/{id}/concluir")
-    public void concluirTarefa(@NonNull Long id) {
-        tarefasService.concluirTarefa(id);
+    @DeleteMapping("/{tarefa_id}")
+    public TarefaResponseDTO delete(@NonNull @PathVariable Long tarefa_id) {
+        return tarefasService.delete(tarefa_id);
+    }
+
+    @ResponseBody
+    @PatchMapping("/{tarefa_id}/concluir")
+    public void concluirTarefa(@NonNull @PathVariable Long tarefa_id) {
+        tarefasService.concluirTarefa(tarefa_id);
     }
 
 }
