@@ -75,7 +75,7 @@ public class TarefasService {
     }
 
     public void mapRelations(TarefaModel tarefaModel, Long usuarioId) {
-        tarefaModel.setUsuario(this.usuariosService.findById(usuarioId));
+        tarefaModel.setUsuario(this.usuariosService.findModelById(usuarioId));
     }
 
 }

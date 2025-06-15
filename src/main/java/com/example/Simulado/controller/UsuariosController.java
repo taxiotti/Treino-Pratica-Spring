@@ -1,7 +1,11 @@
 package com.example.Simulado.controller;
 
+import com.example.Simulado.dto.usuario.UsuarioRequestDTO;
+import com.example.Simulado.dto.usuario.UsuarioResponseDTO;
 import com.example.Simulado.model.UsuarioModel;
 import com.example.Simulado.service.UsuariosService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,28 +19,36 @@ public class UsuariosController {
         this.usuariosService = usuariosService;
     }
 
+    @ResponseBody
     @GetMapping
-    public List<UsuarioModel> findAll() {
+    public List<UsuarioResponseDTO> findAll() {
         return usuariosService.findAll();
     }
 
+    @ResponseBody
     @GetMapping("/{id}")
-    public UsuarioModel findById(@PathVariable Long id) {
+    public UsuarioResponseDTO findById(@PathVariable Long id) {
         return usuariosService.findById(id);
     }
 
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
-    public UsuarioModel save(@RequestParam String nome, @RequestParam String email) {
-        return usuariosService.save(nome, email);
+    public UsuarioResponseDTO save(@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO) {
+        return usuariosService.create(usuarioRequestDTO);
     }
 
-    @PutMapping("/{id}")
-    public UsuarioModel update(@PathVariable Long id, @RequestBody UsuarioModel usuarioModel) {
-        return usuariosService.update(id, usuarioModel);
+    @ResponseBody
+    @PutMapping("/{id_usuario}")
+    public UsuarioResponseDTO update(@PathVariable Long id_usuario,
+                                     @Valid @RequestBody UsuarioRequestDTO usuarioModel) {
+        return usuariosService.update(id_usuario, usuarioModel);
     }
 
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public UsuarioModel delete(@PathVariable Long id) {
-        return usuariosService.delete(id);
+    public void delete(@PathVariable Long id) {
+        usuariosService.delete(id);
     }
 }
