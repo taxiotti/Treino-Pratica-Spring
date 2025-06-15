@@ -1,6 +1,8 @@
 package com.example.Simulado.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,8 +19,14 @@ public class Usuarios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(max = 100)
     private String nome;
+
+    @Size(max = 150)
     private String email;
+
+    @NotNull
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
