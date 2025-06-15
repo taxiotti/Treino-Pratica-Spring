@@ -20,13 +20,10 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 100)
     private String nome;
 
-    @Size(max = 150)
     private String email;
 
-    @NotNull
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
