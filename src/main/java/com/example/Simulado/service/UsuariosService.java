@@ -1,7 +1,7 @@
 package com.example.Simulado.service;
 
 
-import com.example.Simulado.model.Usuarios;
+import com.example.Simulado.model.UsuarioModel;
 import com.example.Simulado.repository.UsuariosRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,34 +17,34 @@ public class UsuariosService {
         this.usuariosRepository = usuariosRepository;
     }
 
-    public List<Usuarios> findAll() {
+    public List<UsuarioModel> findAll() {
         return usuariosRepository.findAll();
     }
 
-    public Usuarios findById(Long id) {
+    public UsuarioModel findById(Long id) {
         return usuariosRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     }
 
-    public Usuarios save(String nome, String email) {
-        Usuarios usuarios = new Usuarios();
-        usuarios.setNome(nome);
-        usuarios.setEmail(email);
-        usuarios.setDataCadastro(LocalDateTime.now());
-        usuarios.setTarefas(null);
-        return usuariosRepository.save(usuarios);
+    public UsuarioModel save(String nome, String email) {
+        UsuarioModel usuarioModel = new UsuarioModel();
+        usuarioModel.setNome(nome);
+        usuarioModel.setEmail(email);
+        usuarioModel.setDataCadastro(LocalDateTime.now());
+        usuarioModel.setTarefas(null);
+        return usuariosRepository.save(usuarioModel);
     }
 
-    public Usuarios update(Long id, Usuarios usuarios) {
-        Usuarios usuarioExistente = findById(id);
-        usuarioExistente.setNome(usuarios.getNome());
-        usuarioExistente.setEmail(usuarios.getEmail());
-        usuarioExistente.setTarefas(usuarios.getTarefas());
+    public UsuarioModel update(Long id, UsuarioModel usuarioModel) {
+        UsuarioModel usuarioExistente = findById(id);
+        usuarioExistente.setNome(usuarioModel.getNome());
+        usuarioExistente.setEmail(usuarioModel.getEmail());
+        usuarioExistente.setTarefas(usuarioModel.getTarefas());
 
         return usuariosRepository.save(usuarioExistente);
     }
 
-    public Usuarios delete(Long id) {
-        Usuarios usuarioExistente = findById(id);
+    public UsuarioModel delete(Long id) {
+        UsuarioModel usuarioExistente = findById(id);
         usuariosRepository.delete(usuarioExistente);
         return usuarioExistente;
     }

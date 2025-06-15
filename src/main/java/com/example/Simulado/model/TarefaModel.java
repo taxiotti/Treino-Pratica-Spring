@@ -30,5 +30,5 @@ public class TarefaModel {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuarios usuario;
+    private UsuarioModel usuario;
 }
