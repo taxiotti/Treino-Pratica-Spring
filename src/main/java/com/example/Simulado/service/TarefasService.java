@@ -2,7 +2,7 @@ package com.example.Simulado.service;
 
 import com.example.Simulado.dto.tarefa.TarefaRequestDTO;
 import com.example.Simulado.dto.tarefa.TarefaResponseDTO;
-import com.example.Simulado.exception.TarefaAlreadyConcluida;
+import com.example.Simulado.exception.TarefaAlreadyConcluidaException;
 import com.example.Simulado.model.TarefaModel;
 import com.example.Simulado.repository.TarefasRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -69,7 +69,7 @@ public class TarefasService {
     public void concluirTarefa(@NonNull Long id) {
         TarefaModel tarefa = getModelById(id);
         if (tarefa.getConcluida()) {
-            throw new TarefaAlreadyConcluida(tarefa);
+            throw new TarefaAlreadyConcluidaException(tarefa);
         }
         tarefa.setConcluida(true);
         tarefasRepository.save(tarefa);

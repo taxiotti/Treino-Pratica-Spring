@@ -15,8 +15,8 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler({ TarefaAlreadyConcluida.class })
-    public ResponseEntity<Object> handleTarefaAlreadyConcluida(TarefaAlreadyConcluida ex) {
+    @ExceptionHandler({ TarefaAlreadyConcluidaException.class })
+    public ResponseEntity<Object> handleTarefaAlreadyConcluida(TarefaAlreadyConcluidaException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
