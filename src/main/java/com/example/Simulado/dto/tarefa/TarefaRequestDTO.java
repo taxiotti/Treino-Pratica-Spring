@@ -18,7 +18,4 @@ public class TarefaRequestDTO {
     private String titulo;
 
     private String descricao;
-
-    @NotNull
-    private Long usuarioId;
 }

@@ -45,6 +45,7 @@ public class TarefasService {
     public TarefaResponseDTO create(Long usuarioId, TarefaRequestDTO tarefa) {
         TarefaModel tarefaModel = new TarefaModel();
         BeanUtils.copyProperties(tarefa, tarefaModel, "id");
+        tarefaModel.setConcluida(false);
 
         mapRelations(tarefaModel, usuarioId);
 
