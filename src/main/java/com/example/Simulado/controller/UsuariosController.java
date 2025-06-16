@@ -2,7 +2,6 @@ package com.example.Simulado.controller;
 
 import com.example.Simulado.dto.usuario.UsuarioRequestDTO;
 import com.example.Simulado.dto.usuario.UsuarioResponseDTO;
-import com.example.Simulado.model.UsuarioModel;
 import com.example.Simulado.service.UsuariosService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
