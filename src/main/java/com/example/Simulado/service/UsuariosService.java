@@ -1,9 +1,12 @@
 package com.example.Simulado.service;
 
 
-import com.example.Simulado.model.Usuarios;
+import com.example.Simulado.dto.usuario.UsuarioRequestDTO;
+import com.example.Simulado.dto.usuario.UsuarioResponseDTO;
+import com.example.Simulado.model.UsuarioModel;
 import com.example.Simulado.repository.UsuariosRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,35 +20,43 @@ public class UsuariosService {
         this.usuariosRepository = usuariosRepository;
     }
 
-    public List<Usuarios> findAll() {
-        return usuariosRepository.findAll();
+    public List<UsuarioResponseDTO> findAll() {
+        return usuariosRepository.findAll()
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .toList();
     }
 
-    public Usuarios findById(Long id) {
-        return usuariosRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+    UsuarioModel findModelById(Long id) {
+        return usuariosRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário de id '" + id + "' não encontrado"));
     }
 
-    public Usuarios save(String nome, String email) {
-        Usuarios usuarios = new Usuarios();
-        usuarios.setNome(nome);
-        usuarios.setEmail(email);
-        usuarios.setDataCadastro(LocalDateTime.now());
-        usuarios.setTarefas(null);
-        return usuariosRepository.save(usuarios);
+    public UsuarioResponseDTO findById(Long id) {
+        UsuarioModel usuarioModel = findModelById(id);
+        return new UsuarioResponseDTO(usuarioModel);
     }
 
-    public Usuarios update(Long id, Usuarios usuarios) {
-        Usuarios usuarioExistente = findById(id);
-        usuarioExistente.setNome(usuarios.getNome());
-        usuarioExistente.setEmail(usuarios.getEmail());
-        usuarioExistente.setTarefas(usuarios.getTarefas());
+    public UsuarioResponseDTO create(UsuarioRequestDTO usuarioRequestDTO) {
+        UsuarioModel usuarioModel = new UsuarioModel();
+        BeanUtils.copyProperties(usuarioRequestDTO, usuarioModel);
+        usuarioModel.setDataCadastro(LocalDateTime.now());
+        UsuarioModel usuarioSalvo = usuariosRepository.save(usuarioModel);
 
-        return usuariosRepository.save(usuarioExistente);
+        return new UsuarioResponseDTO(usuarioSalvo);
     }
 
-    public Usuarios delete(Long id) {
-        Usuarios usuarioExistente = findById(id);
+    public UsuarioResponseDTO update(Long id_usuario, UsuarioRequestDTO usuarioRequestDTO) {
+        UsuarioModel usuarioExistente = findModelById(id_usuario);
+        BeanUtils.copyProperties(usuarioRequestDTO, usuarioExistente);
+
+        UsuarioModel usuarioSalvo = usuariosRepository.save(usuarioExistente);
+        return new UsuarioResponseDTO(usuarioSalvo);
+    }
+
+    public UsuarioResponseDTO delete(Long id) {
+        UsuarioModel usuarioExistente = findModelById(id);
         usuariosRepository.delete(usuarioExistente);
-        return usuarioExistente;
+        return new UsuarioResponseDTO(usuarioExistente);
     }
 }

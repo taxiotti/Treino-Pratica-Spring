@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "tarefas")
-public class Tarefas {
+public class TarefaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +30,5 @@ public class Tarefas {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuarios usuario;
+    private UsuarioModel usuario;
 }
